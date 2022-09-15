@@ -12,6 +12,14 @@ class Game {
         setInterval(() => {
             this.obstacles.forEach( (obstacleInstance) => {
                 obstacleInstance.moveDown();
+                if (
+                    this.player.positionX < obstacleInstance.positionX + obstacleInstance.width &&
+                    this.player.positionX + this.player.width > obstacleInstance.positionX &&
+                    this.player.positionY < obstacleInstance.positionY + obstacleInstance.height &&
+                    this.player.height + this.player.positionY > obstacleInstance.positionY
+                ) {
+                    location.href = 'gameover.html';
+                };
             });
         }, 60);
 
@@ -78,7 +86,7 @@ class Player {
     moveRight(){
         //this.positionX++;
         //this.domElement.style.left = this.positionX + "vw";
-        if (this.positionX < 80) {
+        if (this.positionX < 79.5) {
             this.positionX++;
             this.domElement.style.left = this.positionX + "vw";
         }
