@@ -7,9 +7,16 @@ body {
     height: 100vh;
     background-color: rgb(186, 204, 206);
     position: relative;
+    background-image: url("https://cdn.mos.cms.futurecdn.net/owm4oa3hXUG58mka7hPvfP.jpg");
+    /*border-style: hidden;*/
 }
 
 #player {
     background-color: rgb(255, 0, 166);
+    position: absolute;
+}
+
+.obstacle {
+    background-color: rgb(43, 226, 43);
     position: absolute;
 }
