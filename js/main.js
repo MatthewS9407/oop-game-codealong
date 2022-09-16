@@ -2,38 +2,28 @@
 class Game {
     constructor(){
         this.player = null; //will store an instance of the class Player
-        this.obstacles = [];
+        this.obstacles = []; //will store instances of the class Obstacle
     }
     start(){
         this.player = new Player();
         this.attachEventListeners();
         
-        //move obstacles
-        setInterval(() => {
-            this.obstacles.forEach( (obstacleInstance) => {
-                obstacleInstance.moveDown();
-                if (
-                    this.player.positionX < obstacleInstance.positionX + obstacleInstance.width &&
-                    this.player.positionX + this.player.width > obstacleInstance.positionX &&
-                    this.player.positionY < obstacleInstance.positionY + obstacleInstance.height &&
-                    this.player.height + this.player.positionY > obstacleInstance.positionY
-                ) {
-                    location.href = 'gameover.html';
-                };
-
-                //remove old obstacles
-                if(obstacleInstance.positionY < 0){
-                    obstacleInstance.domElement.remove(); //remove from the dom
-                    this.obstacles.shift();
-                }
-            });
-        }, 60);
-
         //create new obstacles
         setInterval(() => {
             const newObstacle = new Obstacle();
             this.obstacles.push(newObstacle);
-        }, 3000);
+        }, 1000);
+
+        //move obstacles
+        setInterval(() => {
+            this.obstacles.forEach( (obstacleInstance) => {
+                obstacleInstance.moveDown(); //move
+                this.detectCollision(obstacleInstance); //detect collision with current obstacle
+                this.removeObstacleIfOutside(obstacleInstance); //check if we need to remove current obstacle
+            });
+        }, 30);
+
+
     }
     attachEventListeners(){
         document.addEventListener("keydown", (event) => {
@@ -44,7 +34,25 @@ class Game {
             }
         });
     }
+    detectCollision(obstacleInstance){
+        if (
+            this.player.positionX < obstacleInstance.positionX + obstacleInstance.width &&
+            this.player.positionX + this.player.width > obstacleInstance.positionX &&
+            this.player.positionY < obstacleInstance.positionY + obstacleInstance.height &&
+            this.player.height + this.player.positionY > obstacleInstance.positionY
+        ) {
+            console.log("game over....")
+            location.href = 'gameover.html';
+        }
+    }
+    removeObstacleIfOutside(obstacleInstance){
+        if(obstacleInstance.positionY < 0){
+            obstacleInstance.domElement.remove(); //remove from the dom
+            this.obstacles.shift(); // remove from the array
+        }
+    }
 }
+
 //setInterval(() => {
         //    const newObstacle = new Obstacle();
         //    this.obstacles.push(newObstacle);
