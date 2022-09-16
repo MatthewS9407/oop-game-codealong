@@ -20,6 +20,12 @@ class Game {
                 ) {
                     location.href = 'gameover.html';
                 };
+
+                //remove old obstacles
+                if(obstacleInstance.positionY < 0){
+                    obstacleInstance.domElement.remove(); //remove from the dom
+                    this.obstacles.shift();
+                }
             });
         }, 60);
 
